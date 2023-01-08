@@ -18,8 +18,8 @@ thumb_offsets:
   - 6
   - -3
   - 7
-keyboard_z_offset: 11
-thumb_style: TRACKBALL_WILD
+keyboard_z_offset: -50
+thumb_style: MINI
 default_1U_cluster: true
 minidox_Usize: 1.6
 thumb_plate_tr_rotation: 0
