@@ -40,6 +40,7 @@ def debugprint(info):
 
 
 def make_dactyl():
+
     right_cluster = None
     left_cluster = None
 
@@ -204,6 +205,7 @@ def make_dactyl():
                             ((mount_width + extra_width) / 2) / (np.sin(beta / 2))
                     ) + cap_top_height
     column_x_delta = -1 - column_radius * np.sin(beta)
+    # Is this the main angle?? why does nothing change
     column_base_angle = beta * (centercol - 2)
 
     teensy_width = 20
@@ -500,34 +502,37 @@ def make_dactyl():
                 column_x_delta_actual = column_x_delta - 1.5
                 column_angle = beta * (centercol - column - 0.27)
 
-        if column_style == "orthographic":
-            column_z_delta = column_radius * (1 - np.cos(column_angle))
-            shape = translate_fn(shape, [0, 0, -row_radius])
-            shape = rotate_x_fn(shape, alpha * (centerrow - row))
-            shape = translate_fn(shape, [0, 0, row_radius])
-            shape = rotate_y_fn(shape, column_angle)
-            shape = translate_fn(
-                shape, [-(column - centercol) * column_x_delta_actual, 0, column_z_delta]
-            )
-            shape = translate_fn(shape, column_offset(column))
+        # if column_style == "orthographic":
 
-        elif column_style == "fixed":
-            shape = rotate_y_fn(shape, fixed_angles[column])
-            shape = translate_fn(shape, [fixed_x[column], 0, fixed_z[column]])
-            shape = translate_fn(shape, [0, 0, -(row_radius + fixed_z[column])])
-            shape = rotate_x_fn(shape, alpha * (centerrow - row))
-            shape = translate_fn(shape, [0, 0, row_radius + fixed_z[column]])
-            shape = rotate_y_fn(shape, fixed_tenting)
-            shape = translate_fn(shape, [0, column_offset(column)[1], 0])
+        #     column_z_delta = column_radius * (1 - np.cos(column_angle))
+        #     shape = translate_fn(shape, [0, 0, -row_radius])
+        #     shape = rotate_x_fn(shape, alpha * (centerrow - row))
+        #     shape = translate_fn(shape, [0, 0, row_radius])
+        #     shape = rotate_y_fn(shape, column_angle)
+        #     shape = translate_fn(
+        #         shape, [-(column - centercol) * column_x_delta_actual, 0, column_z_delta]
+        #     )
+        #     shape = translate_fn(shape, column_offset(column))
 
-        else:
-            shape = translate_fn(shape, [0, 0, -row_radius])
-            shape = rotate_x_fn(shape, alpha * (centerrow - row))
-            shape = translate_fn(shape, [0, 0, row_radius])
-            shape = translate_fn(shape, [0, 0, -column_radius])
-            shape = rotate_y_fn(shape, column_angle)
-            shape = translate_fn(shape, [0, 0, column_radius])
-            shape = translate_fn(shape, column_offset(column))
+        # elif column_style == "fixed":
+        #     shape = rotate_y_fn(shape, fixed_angles[column])
+        #     shape = translate_fn(shape, [fixed_x[column], 0, fixed_z[column]])
+        #     shape = translate_fn(shape, [0, 0, -(row_radius + fixed_z[column])])
+        #     shape = rotate_x_fn(shape, alpha * (centerrow - row))
+        #     shape = translate_fn(shape, [0, 0, row_radius + fixed_z[column]])
+        #     shape = rotate_y_fn(shape, fixed_tenting)
+        #     shape = translate_fn(shape, [0, column_offset(column)[1], 0])
+
+        # else:
+
+        # This is the only 'column_style' that is used regardless of the setting
+        shape = translate_fn(shape, [0, 0, -row_radius])
+        shape = rotate_x_fn(shape, alpha * (centerrow - row) + x_rotation_offset)
+        shape = translate_fn(shape, [0, 0, row_radius])
+        shape = translate_fn(shape, [0, 0, -column_radius])
+        shape = rotate_y_fn(shape, column_angle)
+        shape = translate_fn(shape, [0, 0, column_radius])
+        shape = translate_fn(shape, column_offset(column))
 
         shape = rotate_y_fn(shape, tenting_angle)
         shape = translate_fn(shape, [0, 0, keyboard_z_offset])
@@ -940,6 +945,12 @@ def make_dactyl():
         )])
 
         for i in range(lastrow):
+            # TODO add as run_config setting
+            # Skip last row's walls to make space for the thumb cluster
+
+            if skip_last_rows_wall and i == lastrow - 1 :
+                print(f'skipping {i}, {lastrow}')
+                continue
             y = i
             low = (y == (lastrow - 1))
             temp_shape1 = wall_brace(
