@@ -21,7 +21,7 @@
   "full_last_rows": true,
   "keyboard_z_offset": 12,
   "skip_last_rows_wall": true,
-  "thumb_style": "DEFAULT",
+  "thumb_style": "RENAME_ME",
   "default_1U_cluster": true,
   "trackball_in_wall": false,
   "tbiw_ball_center_row": 0.2,

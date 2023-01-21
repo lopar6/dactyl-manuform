@@ -14,6 +14,7 @@ from clusters.trackball_wilder import TrackballWild
 from clusters.trackball_cj import TrackballCJ
 from clusters.custom_cluster import CustomCluster
 from clusters.trackball_btu import TrackballBTU
+from clusters.rename_me import RenameMeCluster
 
 
 def deg2rad(degrees: float) -> float:
@@ -2008,6 +2009,8 @@ def make_dactyl():
         elif style == TrackballCJ.name():
             clust = TrackballCJ(all_merged)
         elif style == CustomCluster.name():
+            clust = CustomCluster(all_merged)
+        elif style == RenameMeCluster.name():
             clust = CustomCluster(all_merged)
         else:
             clust = DefaultCluster(all_merged)
