@@ -2011,7 +2011,7 @@ def make_dactyl():
         elif style == CustomCluster.name():
             clust = CustomCluster(all_merged)
         elif style == RenameMeCluster.name():
-            clust = CustomCluster(all_merged)
+            clust = RenameMeCluster(all_merged)
         else:
             clust = DefaultCluster(all_merged)
 
