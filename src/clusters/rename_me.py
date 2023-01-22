@@ -53,44 +53,49 @@ class RenameMeCluster(object):
     # Very top
     def tl_place(self, shape):
         debugprint('tl_place()')
-        shape = rotate(shape, [2.5, -80, 20])
+        shape = rotate(shape, [2.5, -80, 12])
         shape = translate(shape, self.thumborigin())
-        shape = translate(shape, [-5, -14.5, 24.5])
+        shape = translate(shape, [-10, -4, 32])
         return shape
 
+    # Farthest inside (right side on right keyboard)
     def tr_place(self, shape):
         debugprint('tr_place()')
-        shape = rotate(shape, [10, -15, 10])
+        shape = rotate(shape, [20, -50, 40])
         shape = translate(shape, self.thumborigin())
-        shape = translate(shape, [-12, -16, -20])
+        shape = translate(shape, [5, -35, 8])
         return shape
 
+    # Middle of 3 on wrapping section
     def mr_place(self, shape):
         debugprint('mr_place()')
-        shape = rotate(shape, [-6, -34, 48])
+        shape = rotate(shape, [10, -60, 20])
         shape = translate(shape, self.thumborigin())
-        shape = translate(shape, [-29, -40, -20])
+        shape = translate(shape, [-10, -22, 10])
         return shape
 
+    # Very middle
     def ml_place(self, shape):
         debugprint('ml_place()')
-        shape = rotate(shape, [6, -34, 40])
+        shape = rotate(shape, [2.5, -60, 12])
         shape = translate(shape, self.thumborigin())
-        shape = translate(shape, [-51, -25, -20])
+        shape = translate(shape, [-17, -5, 10])
         return shape
 
+    # Below true middle
     def br_place(self, shape):
         debugprint('br_place()')
-        shape = rotate(shape, [-16, -33, 54])
+        shape = rotate(shape, [5, 20, 12])
         shape = translate(shape, self.thumborigin())
-        shape = translate(shape, [-37.8, -55.3, -20])
+        shape = translate(shape, [-50, -10, -2])
         return shape
 
+    # Farthest left / back (on right side)
     def bl_place(self, shape):
         debugprint('bl_place()')
-        shape = rotate(shape, [-4, -35, 52])
+        shape = rotate(shape, [5, 20, 12])
         shape = translate(shape, self.thumborigin())
-        shape = translate(shape, [-56.3, -43.3, -23.5])
+        shape = translate(shape, [-58, 8, -2])
         return shape
 
     def thumb_1x_layout(self, shape, cap=False):
