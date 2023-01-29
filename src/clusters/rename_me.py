@@ -52,7 +52,7 @@ class RenameMeCluster(object):
 
     # Very top
     def top_place(self, shape):
-        debugprint('tl_place()')
+        debugprint('top_place()')
         shape = rotate(shape, [2.5, -80, 12])
         shape = translate(shape, self.thumborigin())
         shape = translate(shape, [-10, -4, 32])
@@ -60,7 +60,7 @@ class RenameMeCluster(object):
 
     # Farthest inside (right side on right keyboard)
     def far_inside_place(self, shape):
-        debugprint('tr_place()')
+        debugprint('far_inside_place()')
         shape = rotate(shape, [20, -50, 40])
         shape = translate(shape, self.thumborigin())
         shape = translate(shape, [5, -35, 8])
@@ -108,6 +108,16 @@ class RenameMeCluster(object):
         shape = translate(shape, [-19, -10, 38])
         return shape
 
+    def bottom_structural_node_place(self, shape):
+        shape = translate(shape, self.thumborigin())
+        shape = translate(shape, [-30, -55, -10])
+        return shape
+
+    def bottom_structural_node_place_two(self, shape):
+        shape = translate(shape, self.thumborigin())
+        shape = translate(shape, [-45, -50, -10])
+        return shape
+
     def thumb_1x_layout(self, shape, cap=False):
         debugprint('thumb_1x_layout()')
         if cap:
@@ -136,36 +146,24 @@ class RenameMeCluster(object):
             shapes = union(shape_list)
         return shapes
 
-    def thumb_15x_layout(self, shape, cap=False, plate=True):
+    def thumb_15x_layout(self, shape, cap=False):
         debugprint('thumb_15x_layout()')
-        if plate:
-            if cap:
-                shape = rotate(shape, (0, 0, 90))
-                cap_list = [self.top_place(rotate(shape, [0, 0, self.thumb_plate_tl_rotation]))]
-                cap_list.append(self.far_inside_place(rotate(shape, [0, 0, self.thumb_plate_tr_rotation])))
-                return add(cap_list)
-            else:
-                shape_list = [self.top_place(rotate(shape, [0, 0, self.thumb_plate_tl_rotation]))]
-                if not default_1U_cluster:
-                    shape_list.append(self.far_inside_place(rotate(shape, [0, 0, self.thumb_plate_tr_rotation])))
-                return union(shape_list)
+        if cap:
+            shape = rotate(shape, (0, 0, 90))
+            shape_list = [
+                self.top_place(shape),
+            ]
+            shape_list.append(self.far_inside_place(shape))
+
+            return add(shape_list)
         else:
-            if cap:
-                shape = rotate(shape, (0, 0, 90))
-                shape_list = [
-                    self.top_place(shape),
-                ]
+            shape_list = [
+                self.top_place(shape),
+            ]
+            if not default_1U_cluster:
                 shape_list.append(self.far_inside_place(shape))
 
-                return add(shape_list)
-            else:
-                shape_list = [
-                    self.top_place(shape),
-                ]
-                if not default_1U_cluster:
-                    shape_list.append(self.far_inside_place(shape))
-
-                return union(shape_list)
+            return union(shape_list)
 
     def thumbcaps(self, side='right'):
         t1 = self.thumb_1x_layout(sa_cap(1), cap=True)
@@ -177,7 +175,7 @@ class RenameMeCluster(object):
         print('thumb()')
         shape = self.thumb_1x_layout(rotate(single_plate(side=side), (0, 0, -90)))
         shape = union([shape, self.thumb_15x_layout(rotate(single_plate(side=side), (0, 0, -90)))])
-        shape = union([shape, self.thumb_15x_layout(double_plate(), plate=False)])
+        shape = union([shape, self.thumb_15x_layout(rotate(single_plate(side=side), (0, 0, -90)))])
 
         return shape
 
@@ -309,34 +307,22 @@ class RenameMeCluster(object):
 
         return union(hulls)
 
+
     def walls(self, side="right"):
         print('thumb_walls()')
-        # thumb, walls
-        if default_1U_cluster:
-            shape = union([wall_brace(self.middle_of_three_place, 0, -1, web_post_br(), self.far_inside_place, 0, -1, web_post_br())])
-        else:
-            shape = union([wall_brace(self.middle_of_three_place, 0, -1, web_post_br(), self.far_inside_place, 0, -1, self.thumb_post_br())])
-        # TODO uncomment and work out
-        # shape = union([shape, wall_brace(self.mr_place, 0, -1, web_post_br(), self.mr_place, 0, -1, web_post_bl())])
-        # shape = union([shape, wall_brace(self.br_place, 0, -1, web_post_br(), self.br_place, 0, -1, web_post_bl())])
-        # shape = union([shape, wall_brace(self.ml_place, -0.3, 1, web_post_tr(), self.ml_place, 0, 1, web_post_tl())])
-        # shape = union([shape, wall_brace(self.bl_place, 0, 1, web_post_tr(), self.bl_place, 0, 1, web_post_tl())])
-        # shape = union([shape, wall_brace(self.br_place, -1, 0, web_post_tl(), self.br_place, -1, 0, web_post_bl())])
-        # shape = union([shape, wall_brace(self.bl_place, -1, 0, web_post_tl(), self.bl_place, -1, 0, web_post_bl())])
-        # # thumb, corners
-        # shape = union([shape, wall_brace(self.br_place, -1, 0, web_post_bl(), self.br_place, 0, -1, web_post_bl())])
-        # shape = union([shape, wall_brace(self.bl_place, -1, 0, web_post_tl(), self.bl_place, 0, 1, web_post_tl())])
-        # # thumb, tweeners
-        # shape = union([shape, wall_brace(self.mr_place, 0, -1, web_post_bl(), self.br_place, 0, -1, web_post_br())])
-        # shape = union([shape, wall_brace(self.ml_place, 0, 1, web_post_tl(), self.bl_place, 0, 1, web_post_tr())])
-        # shape = union([shape, wall_brace(self.bl_place, -1, 0, web_post_bl(), self.br_place, -1, 0, web_post_tl())])
-        # if default_1U_cluster:
-        #     shape = union([shape,
-        #                    wall_brace(self.tr_place, 0, -1, web_post_br(), (lambda sh: key_place(sh, 3, lastrow)), 0,
-        #                               -1, web_post_bl())])
-        # else:
-        #     shape = union([shape, wall_brace(self.tr_place, 0, -1, self.thumb_post_br(),
-        #                                      (lambda sh: key_place(sh, 3, lastrow)), 0, -1, web_post_bl())])
+
+        # These shapes are in order from right to left
+        shape = union([wall_brace(self.far_inside_place, -1, -1, web_post_br(), self.far_inside_place, -1, -1, web_post_bl())])
+        shape = union([shape, wall_brace(self.far_inside_place, 0, -1, web_post_bl(), self.far_inside_place, -5, -1, web_post_tl())])
+        shape = union([shape, wall_brace(self.far_inside_place, -5, -1, web_post_tl(), self.middle_of_three_place, -5, -2, web_post_bl())])
+        shape = union([shape, wall_brace(self.middle_of_three_place, -5, -2, web_post_bl(), self.middle_of_three_place, -5, -3, web_post_tl())])
+        shape = union([shape, wall_brace(self.middle_of_three_place, -5, -3, web_post_tl(), self.true_middle_place, -5, -2, web_post_bl())])
+        shape = union([shape, wall_brace(self.true_middle_place, -5, -2, web_post_bl(), self.below_t_middle_place, -2, -2, web_post_br())])
+        shape = union([shape, wall_brace(self.below_t_middle_place, -2, -2, web_post_br(), self.below_t_middle_place, -1, -1, web_post_bl())])
+        shape = union([shape, wall_brace(self.below_t_middle_place, -1, -1, web_post_bl(), self.below_t_middle_place, -1, 0, web_post_tl())])
+        shape = union([shape, wall_brace(self.below_t_middle_place, -1, 0, web_post_tl(), self.far_back_place,-1, 0, web_post_bl())])
+        shape = union([shape, wall_brace(self.far_back_place, -1, 0, web_post_bl(), self.far_back_place, -1, 0, web_post_tl())])
+
 
         return shape
 
@@ -347,50 +333,25 @@ class RenameMeCluster(object):
             [
                 left_key_place(translate(web_post(), wall_locate2(-1, 0)), cornerrow, -1, low_corner=True, side=side),
                 left_key_place(translate(web_post(), wall_locate3(-1, 0)), cornerrow, -1, low_corner=True, side=side),
-                self.true_middle_place(translate(web_post_tr(), wall_locate2(-0.3, 1))),
-                self.true_middle_place(translate(web_post_tr(), wall_locate3(-0.3, 1))),
+                self.top_place(self.thumb_post_tl()),
             ]
         )])
-        # TODO uncomment and workout connections
-        # shape = union([shape,
-        #                hull_from_shapes(
-        #                    [
-        #                        left_key_place(translate(web_post(), wall_locate2(-1, 0)), cornerrow, -1,
-        #                                       low_corner=True, side=side),
-        #                        left_key_place(translate(web_post(), wall_locate3(-1, 0)), cornerrow, -1,
-        #                                       low_corner=True, side=side),
-        #                        self.ml_place(translate(web_post_tr(), wall_locate2(-0.3, 1))),
-        #                        self.ml_place(translate(web_post_tr(), wall_locate3(-0.3, 1))),
-        #                        self.tl_place(self.thumb_post_tl()),
-        #                    ]
-        #                )
-        #                ])  # )
-
-        # shape = union([shape, hull_from_shapes(
-        #     [
-        #         left_key_place(translate(web_post(), wall_locate1(-1, 0)), cornerrow, -1, low_corner=True, side=side),
-        #         left_key_place(translate(web_post(), wall_locate2(-1, 0)), cornerrow, -1, low_corner=True, side=side),
-        #         left_key_place(translate(web_post(), wall_locate3(-1, 0)), cornerrow, -1, low_corner=True, side=side),
-        #         self.tl_place(self.thumb_post_tl()),
-        #     ]
-        # )])
 
         # shape = union([shape, hull_from_shapes(
         #     [
         #         left_key_place(web_post(), cornerrow, -1, low_corner=True, side=side),
         #         left_key_place(translate(web_post(), wall_locate1(-1, 0)), cornerrow, -1, low_corner=True, side=side),
         #         key_place(web_post_bl(), 0, cornerrow),
-        #         self.tl_place(self.thumb_post_tl()),
+        #         self.top_place(self.thumb_post_tl()),
         #     ]
         # )])
 
         # shape = union([shape, hull_from_shapes(
         #     [
-        #         self.ml_place(web_post_tr()),
-        #         self.ml_place(translate(web_post_tr(), wall_locate1(-0.3, 1))),
-        #         self.ml_place(translate(web_post_tr(), wall_locate2(-0.3, 1))),
-        #         self.ml_place(translate(web_post_tr(), wall_locate3(-0.3, 1))),
-        #         self.tl_place(self.thumb_post_tl()),
+        #         self.true_middle_place(web_post_tr()),
+        #         self.true_middle_place(translate(web_post_tr(), wall_locate1(-0.3, 1))),
+        #         self.true_middle_place(translate(web_post_tr(), wall_locate2(-0.3, 1))),
+        #         self.true_middle_place(translate(web_post_tr(), wall_locate3(-0.3, 1))),
         #     ]
         # )])
 
