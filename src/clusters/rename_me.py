@@ -311,18 +311,17 @@ class RenameMeCluster(object):
     def walls(self, side="right"):
         print('thumb_walls()')
 
-        # These shapes are in order from right to left
-        shape = union([wall_brace(self.far_inside_place, -1, -1, web_post_br(), self.far_inside_place, -1, -1, web_post_bl())])
-        shape = union([shape, wall_brace(self.far_inside_place, 0, -1, web_post_bl(), self.far_inside_place, -5, -1, web_post_tl())])
-        shape = union([shape, wall_brace(self.far_inside_place, -5, -1, web_post_tl(), self.middle_of_three_place, -5, -2, web_post_bl())])
-        shape = union([shape, wall_brace(self.middle_of_three_place, -5, -2, web_post_bl(), self.middle_of_three_place, -5, -3, web_post_tl())])
-        shape = union([shape, wall_brace(self.middle_of_three_place, -5, -3, web_post_tl(), self.true_middle_place, -5, -2, web_post_bl())])
-        shape = union([shape, wall_brace(self.true_middle_place, -5, -2, web_post_bl(), self.below_t_middle_place, -2, -2, web_post_br())])
-        shape = union([shape, wall_brace(self.below_t_middle_place, -2, -2, web_post_br(), self.below_t_middle_place, -1, -1, web_post_bl())])
-        shape = union([shape, wall_brace(self.below_t_middle_place, -1, -1, web_post_bl(), self.below_t_middle_place, -1, 0, web_post_tl())])
-        shape = union([shape, wall_brace(self.below_t_middle_place, -1, 0, web_post_tl(), self.far_back_place,-1, 0, web_post_bl())])
-        shape = union([shape, wall_brace(self.far_back_place, -1, 0, web_post_bl(), self.far_back_place, -1, 0, web_post_tl())])
+        shape = union([wall_brace(self.far_inside_place, -1, -1, web_post_br(), self.far_inside_place, -1.5, -1, web_post_bl())])
+        shape = union([shape, wall_brace(self.far_inside_place, -1.5, -1, web_post_bl(), self.far_inside_place, -1.5, -1, web_post_tl())])
+        shape = union([shape, wall_brace(self.far_inside_place, -1.5, -1, web_post_tl(), self.middle_of_three_place, -1.5, -1, web_post_bl())])
+        shape = union([shape, wall_brace(self.middle_of_three_place, -1.5, -1, web_post_bl(), self.middle_of_three_place, -1.5, -1, web_post_tl())])
+        shape = union([shape, wall_brace(self.middle_of_three_place, -1.5, -1, web_post_tl(), self.true_middle_place, 0, -1, web_post_bl())])
+        shape = union([shape, wall_brace(self.true_middle_place, 0, -1, web_post_bl(), self.below_t_middle_place, 0, -1, web_post_br())])
+        shape = union([shape, wall_brace(self.below_t_middle_place, 0, -1, web_post_br(), self.below_t_middle_place, 0, -1, web_post_bl())])
 
+        shape = union([shape, wall_brace(self.below_t_middle_place, 0, -1, web_post_bl(), self.below_t_middle_place, -1, 0, web_post_tl())])
+        shape = union([shape, wall_brace(self.below_t_middle_place, -1, 0, web_post_tl(), self.far_back_place, -1, 0, web_post_bl())])
+        shape = union([shape, wall_brace(self.far_back_place, -1, 0, web_post_bl(), self.far_back_place, -1, 0, web_post_tl())])
 
         return shape
 
