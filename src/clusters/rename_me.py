@@ -100,7 +100,7 @@ class RenameMeCluster(object):
 
     def top_structural_node_place(self, shape):
         shape = translate(shape, self.thumborigin())
-        shape = translate(shape, [-14, -25, 38])
+        shape = translate(shape, [-14, -28, 38])
         return shape
 
     def top_structural_node_place_inside(self, shape):
@@ -211,15 +211,10 @@ class RenameMeCluster(object):
         hulls.append(
             triangle_hulls(
                 [
-                    self.far_inside_place(web_post_br()),
-                    self.far_inside_place(web_post_tr()),
-                    self.top_structural_node_place(self.thumb_post_tr()),
-                    self.middle_of_three_place(web_post_br()),
-                    self.middle_of_three_place(web_post_tr()),
-                    self.top_structural_node_place(self.thumb_post_tr()),
-                    self.top_place(web_post_br()),
                     self.top_structural_node_place_inside(self.thumb_post_tr()),
                     self.top_place(web_post_tr()),
+                    self.top_structural_node_place(self.thumb_post_tr()),
+                    self.top_place(web_post_br()),
                 ]
             )
         )
@@ -230,10 +225,16 @@ class RenameMeCluster(object):
                     self.true_middle_place(web_post_tr()),
                     self.top_place(web_post_bl()),
                     self.true_middle_place(web_post_br()),
+                    # tiny triangle
+                    self.middle_of_three_place(web_post_tr()),
 
                     self.true_middle_place(web_post_tr()),
                     self.top_place(web_post_tl()),
                     self.top_place(web_post_bl()),
+
+                    self.top_place(web_post_bl()),
+                    self.middle_of_three_place(web_post_tr()),
+                    self.top_structural_node_place(self.thumb_post_tr()),
                 ]
             )
         )
@@ -394,15 +395,31 @@ class RenameMeCluster(object):
             triangle_hulls(
                 [
                     self.top_structural_node_place(self.thumb_post_tr()),
+                    self.middle_of_three_place(web_post_tr()),
                     key_place(web_post_bl(), 2, cornerrow + 1),
-                    key_place(web_post_br(), 2, cornerrow + 1),
                 ]
             )
         )
         hulls.append(
             triangle_hulls(
                 [
-                    self.top_structural_node_place(self.thumb_post_tr()),
+                    self.middle_of_three_place(web_post_tr()),
+                    self.middle_of_three_place(web_post_br()),
+                    key_place(web_post_bl(), 2, cornerrow + 1),
+                    key_place(web_post_br(), 2, cornerrow + 1),
+
+
+                ]
+            )
+        )
+        hulls.append(
+            triangle_hulls(
+                [
+                    self.far_inside_place(web_post_tr()),
+                    self.middle_of_three_place(web_post_br()),
+                    key_place(web_post_br(), 2, cornerrow + 1),
+
+                    self.far_inside_place(web_post_tr()),
                     key_place(web_post_br(), 2, cornerrow + 1),
                     key_place(web_post_bl(), 3, cornerrow + 1),
                 ]
@@ -411,26 +428,30 @@ class RenameMeCluster(object):
         hulls.append(
             triangle_hulls(
                 [
-                    self.top_structural_node_place(self.thumb_post_tr()),
+                    key_place(web_post_bl(), 3, cornerrow + 1),
+                    self.far_inside_place(web_post_br()),
+                    self.far_inside_place(web_post_tr()),
+                ]
+            )
+        )
+        hulls.append(
+            triangle_hulls(
+                [
+                    key_place(web_post_bl(), 3, cornerrow + 1),
+                    self.far_inside_place(web_post_br()),
+                    right_wall_corner,
+                ]
+            )
+        )
+        hulls.append(
+            triangle_hulls(
+                [
                     key_place(web_post_bl(), 3, cornerrow + 1),
                     right_wall_corner,
                     below_right_wall_corner,
                 ]
             )
         )
-        hulls.append(
-            triangle_hulls(
-                [
-                    self.top_structural_node_place(self.thumb_post_tr()),
-                    # Why is this node so far?
-                    # TODO fix this
-                    self.far_inside_place(self.thumb_post_br()),
-                    right_wall_corner,
-                ]
-            )
-        )
-
-
         return hulls
 
     def screw_positions(self):
