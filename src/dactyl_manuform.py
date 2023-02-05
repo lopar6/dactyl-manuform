@@ -1658,10 +1658,8 @@ def make_dactyl():
 
     def screw_insert_all_shapes(bottom_radius, top_radius, height, offset=0, side='right'):
         print('screw_insert_all_shapes()')
-        shape = (
+        shape = [
             translate(screw_insert(0, 0, bottom_radius, top_radius, height, side=side), (0, 0, offset)),  # rear left
-            translate(screw_insert(0, lastrow - 1, bottom_radius, top_radius, height, side=side),
-                      (0, left_wall_lower_y_offset, offset)),  # front left
             translate(screw_insert(3, lastrow, bottom_radius, top_radius, height, side=side),
                       (0, 0, offset)),  # front middle
             translate(screw_insert(3, 0, bottom_radius, top_radius, height, side=side), (0, 0, offset)),  # rear middle
@@ -1670,7 +1668,14 @@ def make_dactyl():
             translate(screw_insert(lastcol, lastrow - 1, bottom_radius, top_radius, height, side=side),
                       (-2, -8, offset)),  # front right # TODO CONFIGURE IN JSON
             translate(screw_insert_thumb(bottom_radius, top_radius, height, side), (0, 0, offset)),  # thumb cluster
-        )
+        ]
+        # front left
+        if thumb_style == RenameMeCluster.name():
+            shape.append(translate(screw_insert(0, lastrow - 2, bottom_radius, top_radius, height, side=side),
+                      (0, left_wall_lower_y_offset, offset)))
+        else:
+            shape.append(translate(screw_insert(0, lastrow - 1, bottom_radius, top_radius, height, side=side),
+                      (0, left_wall_lower_y_offset, offset)))
 
         return shape
 
