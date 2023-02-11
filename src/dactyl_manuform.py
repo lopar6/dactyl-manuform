@@ -840,29 +840,50 @@ def make_dactyl():
         #     -wall_z_offset,
         # ]
 
-
-    def wall_brace(place1, dx1, dy1, post1, place2, dx2, dy2, post2, back=False):
+    def wall_brace(place1, dx1, dy1, post1, place2, dx2, dy2, post2, back=False, place1_extra_args: tuple = None):
         debugprint("wall_brace()")
         hulls = []
 
-        hulls.append(place1(post1))
-        hulls.append(place1(translate(post1, wall_locate1(dx1, dy1))))
-        hulls.append(place1(translate(post1, wall_locate2(dx1, dy1))))
-        hulls.append(place1(translate(post1, wall_locate3(dx1, dy1, back))))
+        # This is pretty hacky
+        # Should probably refac
+        if (place1_extra_args is not None):
+            hulls.append(place1(post1, *place1_extra_args))
+            hulls.append(place1(translate(post1, wall_locate1(dx1, dy1)), *place1_extra_args))
+            hulls.append(place1(translate(post1, wall_locate2(dx1, dy1)), *place1_extra_args))
+            hulls.append(place1(translate(post1, wall_locate3(dx1, dy1, back)), *place1_extra_args))
 
-        hulls.append(place2(post2))
-        hulls.append(place2(translate(post2, wall_locate1(dx2, dy2))))
-        hulls.append(place2(translate(post2, wall_locate1(dx2, dy2))))
-        hulls.append(place2(translate(post2, wall_locate2(dx2, dy2))))
-        hulls.append(place2(translate(post2, wall_locate3(dx2, dy2, back))))
-        shape1 = hull_from_shapes(hulls)
+            hulls.append(place2(post2))
+            hulls.append(place2(translate(post2, wall_locate1(dx2, dy2))))
+            hulls.append(place2(translate(post2, wall_locate1(dx2, dy2))))
+            hulls.append(place2(translate(post2, wall_locate2(dx2, dy2))))
+            hulls.append(place2(translate(post2, wall_locate3(dx2, dy2, back))))
+            shape1 = hull_from_shapes(hulls)
 
-        hulls = []
-        hulls.append(place1(translate(post1, wall_locate2(dx1, dy1))))
-        hulls.append(place1(translate(post1, wall_locate3(dx1, dy1, back))))
-        hulls.append(place2(translate(post2, wall_locate2(dx2, dy2))))
-        hulls.append(place2(translate(post2, wall_locate3(dx2, dy2, back))))
-        shape2 = bottom_hull(hulls)
+            hulls = []
+            hulls.append(place1(translate(post1, wall_locate2(dx1, dy1)), *place1_extra_args))
+            hulls.append(place1(translate(post1, wall_locate3(dx1, dy1, back)), *place1_extra_args))
+            hulls.append(place2(translate(post2, wall_locate2(dx2, dy2))))
+            hulls.append(place2(translate(post2, wall_locate3(dx2, dy2, back))))
+            shape2 = bottom_hull(hulls)
+        else:
+            hulls.append(place1(post1))
+            hulls.append(place1(translate(post1, wall_locate1(dx1, dy1))))
+            hulls.append(place1(translate(post1, wall_locate2(dx1, dy1))))
+            hulls.append(place1(translate(post1, wall_locate3(dx1, dy1, back))))
+
+            hulls.append(place2(post2))
+            hulls.append(place2(translate(post2, wall_locate1(dx2, dy2))))
+            hulls.append(place2(translate(post2, wall_locate1(dx2, dy2))))
+            hulls.append(place2(translate(post2, wall_locate2(dx2, dy2))))
+            hulls.append(place2(translate(post2, wall_locate3(dx2, dy2, back))))
+            shape1 = hull_from_shapes(hulls)
+
+            hulls = []
+            hulls.append(place1(translate(post1, wall_locate2(dx1, dy1))))
+            hulls.append(place1(translate(post1, wall_locate3(dx1, dy1, back))))
+            hulls.append(place2(translate(post2, wall_locate2(dx2, dy2))))
+            hulls.append(place2(translate(post2, wall_locate3(dx2, dy2, back))))
+            shape2 = bottom_hull(hulls)
 
         return union([shape1, shape2])
         # return shape1
