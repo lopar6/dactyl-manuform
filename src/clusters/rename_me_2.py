@@ -1,6 +1,7 @@
 import json
 import os
-
+# TODO change inner curve shape to fix width issues
+# TODO change cluster locations
 
 class RenameMeCluster2(object):
     num_keys = 6
@@ -93,9 +94,9 @@ class RenameMeCluster2(object):
     # Farthest left / back (on right side)
     def far_back_place(self, shape):
         debugprint('bl_place()')
-        shape = rotate(shape, [10, 20, 12])
+        shape = rotate(shape, [10, -20, 12])
         shape = translate(shape, self.thumborigin())
-        shape = translate(shape, [-55, 8, 2])
+        shape = translate(shape, [-49, 8, -2])
         return shape
 
     def top_structural_node_place(self, shape):
