@@ -947,11 +947,10 @@ def make_dactyl():
         )])
 
         for i in range(lastrow):
-            # TODO add as run_config setting
             # Skip last row's walls to make space for the thumb cluster
-
             if skip_last_rows_wall and i == lastrow - 1 :
-                print(f'skipping {i}, {lastrow}')
+                continue
+            if skip_2nd_to_last_rows_wall and i == lastrow - 2 :
                 continue
             y = i
             low = (y == (lastrow - 1))
@@ -969,6 +968,10 @@ def make_dactyl():
             shape = union([shape, temp_shape2])
 
         for i in range(lastrow - 1):
+            if skip_last_rows_wall and i == lastrow - 1 :
+                continue
+            if skip_2nd_to_last_rows_wall and i == lastrow - 2 :
+                continue
             y = i + 1
             low = (y == (lastrow - 1))
             temp_shape1 = wall_brace(
