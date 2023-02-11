@@ -207,50 +207,62 @@ class RenameMeCluster2(object):
         hulls.append(
             triangle_hulls(
                 [
-                    self.top_right_place(web_post_tr()),
-                    self.top_place(web_post_bl()),
                     self.top_right_place(web_post_br()),
-                    # tiny triangle
-                    self.bottom_left_place(web_post_tr()),
+                    self.top_right_place(web_post_bl()),
+                    self.bottom_right_place(web_post_tr()),
+                    self.bottom_right_place(web_post_tl()),
 
-                #     self.true_middle_place(web_post_tr()),
-                #     self.top_place(web_post_tl()),
-                #     self.top_place(web_post_bl()),
-
-                #     self.top_place(web_post_bl()),
-                #     self.bottom_left_place(web_post_tr()),
-                #     self.top_place(self.thumb_post_tr()),
                 ]
             )
         )
 
-        # hulls.append(
-        #     triangle_hulls(
-        #         [
-        #             self.bottom_left_place(web_post_tl()),
-        #             self.true_middle_place(web_post_bl()),
-        #             self.true_middle_place(web_post_br()),
+        hulls.append(
+            triangle_hulls(
+                [
+                    self.bottom_right_place(web_post_tl()),
+                    self.bottom_right_place(web_post_bl()),
+                    self.bottom_left_place(web_post_tr()),
+                    self.bottom_left_place(web_post_br()),
 
-        #             self.true_middle_place(web_post_br()),
-        #             self.bottom_left_place(web_post_tl()),
-        #             self.bottom_left_place(web_post_tr()),
-        #         ]
-        #     )
-        # )
+                ]
+            )
+        )
 
-        # hulls.append(
-        #     triangle_hulls(
-        #         [
-        #             self.far_inside_place(web_post_tl()),
-        #             self.bottom_left_place(web_post_bl()),
-        #             self.bottom_left_place(web_post_br()),
+        hulls.append(
+            triangle_hulls(
+                [
+                    self.top_right_place(web_post_bl()),
+                    self.top_left_place(web_post_br()),
+                    self.bottom_right_place(web_post_tl()),
+                    self.bottom_left_place(web_post_tr()),
 
-        #             self.bottom_left_place(web_post_br()),
-        #             self.far_inside_place(web_post_tl()),
-        #             self.far_inside_place(web_post_tr()),
-        #         ]
-        #     )
-        # )
+                ]
+            )
+        )
+
+        hulls.append(
+            triangle_hulls(
+                [
+                    self.top_left_place(web_post_br()),
+                    self.bottom_left_place(web_post_tl()),
+                    self.top_left_place(web_post_bl()),
+                    self.bottom_left_place(web_post_tr()),
+                    self.top_left_place(web_post_br()),
+                ]
+            )
+        )
+
+        hulls.append(
+            triangle_hulls(
+                [
+                    self.mid_top_place(web_post_tr()),
+                    self.top_place(web_post_bl()),
+                    self.mid_top_place(web_post_tl()),
+                    self.top_place(web_post_br()),
+                    self.mid_top_place(web_post_tr()),
+                ]
+            )
+        )
 
         hulls.append(
             triangle_hulls(
@@ -287,18 +299,21 @@ class RenameMeCluster2(object):
         print('thumb_walls()')
 
         shape = union([wall_brace(self.bottom_right_place, -1, -1, web_post_br(), self.bottom_right_place, -1.5, -1, web_post_bl())])
-        # shape = union([shape, wall_brace(self.far_inside_place, -1.5, -1, web_post_bl(), self.far_inside_place, -1.5, -1, web_post_tl())])
-        # shape = union([shape, wall_brace(self.far_inside_place, -1.5, -1, web_post_tl(), self.bottom_left_place, -1.5, -1, web_post_bl())])
-        # shape = union([shape, wall_brace(self.bottom_left_place, -1.5, -1, web_post_bl(), self.bottom_left_place, -1.5, -1, web_post_tl())])
-        # shape = union([shape, wall_brace(self.bottom_left_place, -1.5, -1, web_post_tl(), self.true_middle_place, 0, -1, web_post_bl())])
-        # shape = union([shape, wall_brace(self.true_middle_place, 0, -1, web_post_bl(), self.below_t_middle_place, 0, -1, web_post_br())])
-        # shape = union([shape, wall_brace(self.below_t_middle_place, 0, -1, web_post_br(), self.below_t_middle_place, 0, -1, web_post_bl())])
+        shape = union([shape, wall_brace(self.bottom_right_place, -1.5, -1, web_post_bl(), self.bottom_left_place, -1.5, -1, web_post_br())])
+        shape = union([shape, wall_brace(self.bottom_left_place, -1.5, -1, web_post_br(), self.bottom_left_place, -1.5, -1, web_post_bl())])
+        shape = union([shape, wall_brace(self.bottom_left_place, -1.5, -1, web_post_bl(), self.bottom_left_place, -1.5, -1, web_post_tl())])
+        shape = union([shape, wall_brace(self.bottom_left_place, -1.5, -1, web_post_tl(), self.top_left_place, 0, -1, web_post_bl())])
+        shape = union([shape, wall_brace(self.top_left_place, 0, -1, web_post_bl(), self.top_left_place, 0, -1, web_post_tl())])
+        shape = union([shape, wall_brace(self.top_left_place, 0, -1, web_post_tl(), self.mid_top_place, 0, -1, web_post_bl())])
+        shape = union([shape, wall_brace(self.mid_top_place, 0, -1, web_post_bl(), self.mid_top_place, -1, 0, web_post_tl())])
+        shape = union([shape, wall_brace(self.mid_top_place, -1, 0, web_post_tl(), self.top_place, -1, 0, web_post_bl())])
+        shape = union([shape, wall_brace(self.top_place, -1, 0, web_post_bl(), self.top_place, -1, 0, web_post_tl())])
+        shape = union([shape, wall_brace(self.top_place, -2, .35, web_post_tr(), self.top_place, -1, 0, web_post_tl())])
 
-        # shape = union([shape, wall_brace(self.below_t_middle_place, 0, -1, web_post_bl(), self.below_t_middle_place, -1, 0, web_post_tl())])
-        # shape = union([shape, wall_brace(self.below_t_middle_place, -1, 0, web_post_tl(), self.far_back_place, -1, 0, web_post_bl())])
-        # shape = union([shape, wall_brace(self.far_back_place, -1, 0, web_post_bl(), self.far_back_place, -1, 0, web_post_tl())])
-        # shape = union([shape, wall_brace(self.far_back_place, -1.5, .35, web_post_tr(), self.far_back_place, -1, 0, web_post_tl())])
-
+        shape = union([shape, wall_brace(
+            key_place, 0, -1, web_post_bl(),
+            self.bottom_right_place, -1, 0, web_post_br(),
+            place1_extra_args = (3, cornerrow + 1))])
         return shape
 
     def connection(self, side='right'):
@@ -312,120 +327,176 @@ class RenameMeCluster2(object):
         hulls.append(
             triangle_hulls(
                 [
+                    self.top_place(web_post_br()),
+                    self.top_place(web_post_tr()),
+                    key_place(web_post_bl(), 0, cornerrow - 1),
+                    key_place(web_post_tl(), 0, cornerrow- 1),
+
+                ]
+            )
+        )
+
+        hulls.append(
+            triangle_hulls(
+                [
+                    self.top_place(web_post_br()),
+                    self.mid_top_place(web_post_tr()),
+                    key_place(web_post_bl(), 0, cornerrow - 1),
+                    key_place(web_post_tl(), 0, cornerrow),
+                    self.mid_top_place(web_post_tr()),
+                ]
+            )
+        )
+
+        hulls.append(
+            triangle_hulls(
+                [
                     self.mid_top_place(web_post_br()),
                     self.mid_top_place(web_post_tr()),
-                    # Corner of main board
                     key_place(web_post_bl(), 0, cornerrow),
                     key_place(web_post_tl(), 0, cornerrow),
 
                 ]
             )
         )
-        # hulls.append(
-        #     triangle_hulls(
-        #         [
-        #             self.below_t_middle_place(web_post_tr()),
-        #             self.far_back_place(web_post_br()),
-        #             key_place(web_post_bl(), 0, cornerrow),
-        #             self.true_middle_place(web_post_tl()),
-        #         ]
-        #     )
-        # )
-        # hulls.append(
-        #     triangle_hulls(
-        #         [
-        #             key_place(web_post_br(), 1, cornerrow),
-        #             key_place(web_post_bl(), 2, cornerrow),
-        #             key_place(web_post_bl(), 2, cornerrow + 1),
-        #         ]
-        #     )
-        # )
-        # hulls.append(
-        #     triangle_hulls(
-        #         [
-        #             self.true_middle_place(web_post_tl()),
-        #             self.true_middle_place(web_post_tr()),
-        #             key_place(web_post_br(), 0, cornerrow),
-        #             key_place(web_post_br(), 1, cornerrow),
-        #             self.top_place(self.thumb_post_tr()),
 
-        #             self.top_place(web_post_tl()),
-        #             self.top_place(web_post_tr()),
-        #         ]
-        #     )
-        # )
-        # hulls.append(
-        #     triangle_hulls(
-        #         [
-        #             self.top_place(self.thumb_post_tr()),
-        #             self.top_place(self.thumb_post_tr()),
+        hulls.append(
+            triangle_hulls(
+                [
+                    self.mid_top_place(web_post_br()),
+                    self.top_left_place(web_post_tr()),
+                    key_place(web_post_bl(), 0, cornerrow),
+                    self.top_left_place(web_post_tr()),
 
-        #             key_place(web_post_br(), 1, cornerrow),
-        #             key_place(web_post_bl(), 2, cornerrow + 1),
-        #         ]
-        #     )
-        # )
-        # hulls.append(
-        #     triangle_hulls(
-        #         [
-        #             self.top_place(self.thumb_post_tr()),
-        #             self.bottom_left_place(web_post_tr()),
-        #             key_place(web_post_bl(), 2, cornerrow + 1),
-        #         ]
-        #     )
-        # )
-        # hulls.append(
-        #     triangle_hulls(
-        #         [
-        #             self.bottom_left_place(web_post_tr()),
-        #             self.bottom_left_place(web_post_br()),
-        #             key_place(web_post_bl(), 2, cornerrow + 1),
-        #             key_place(web_post_br(), 2, cornerrow + 1),
+                ]
+            )
+        )
 
+        hulls.append(
+            triangle_hulls(
+                [
+                    self.top_left_place(web_post_tr()),
+                    self.top_right_place(web_post_tl()),
+                    key_place(web_post_bl(), 0, cornerrow),
+                    self.top_left_place(web_post_tr()),
+                ]
+            )
+        )
 
-        #         ]
-        #     )
-        # )
-        # hulls.append(
-        #     triangle_hulls(
-        #         [
-        #             self.far_inside_place(web_post_tr()),
-        #             self.bottom_left_place(web_post_br()),
-        #             key_place(web_post_br(), 2, cornerrow + 1),
+        hulls.append(
+            triangle_hulls(
+                [
+                    self.top_right_place(web_post_tl()),
+                    key_place(web_post_bl(), 0, cornerrow),
+                    key_place(web_post_br(), 0, cornerrow),
+                ]
+            )
+        )
 
-        #             self.far_inside_place(web_post_tr()),
-        #             key_place(web_post_br(), 2, cornerrow + 1),
-        #             key_place(web_post_bl(), 3, cornerrow + 1),
-        #         ]
-        #     )
-        # )
-        # hulls.append(
-        #     triangle_hulls(
-        #         [
-        #             key_place(web_post_bl(), 3, cornerrow + 1),
-        #             self.far_inside_place(web_post_br()),
-        #             self.far_inside_place(web_post_tr()),
-        #         ]
-        #     )
-        # )
-        # hulls.append(
-        #     triangle_hulls(
-        #         [
-        #             key_place(web_post_bl(), 3, cornerrow + 1),
-        #             self.far_inside_place(web_post_br()),
-        #             right_wall_corner,
-        #         ]
-        #     )
-        # )
-        # hulls.append(
-        #     triangle_hulls(
-        #         [
-        #             key_place(web_post_bl(), 3, cornerrow + 1),
-        #             right_wall_corner,
-        #             below_right_wall_corner,
-        #         ]
-        #     )
-        # )
+        hulls.append(
+            triangle_hulls(
+                [
+                    self.top_right_place(web_post_tl()),
+                    self.top_right_place(web_post_tr()),
+                    key_place(web_post_br(), 0, cornerrow),
+                    key_place(web_post_bl(), 1, cornerrow),
+                    self.top_right_place(web_post_tr()),
+                ]
+            )
+        )
+
+        hulls.append(
+            triangle_hulls(
+                [
+                    self.top_right_place(web_post_tr()),
+                    key_place(web_post_bl(), 1, cornerrow),
+                    key_place(web_post_br(), 1, cornerrow),
+                ]
+            )
+        )
+
+        # Tiny triangle
+        hulls.append(
+            triangle_hulls(
+                [
+                    key_place(web_post_br(), 1, cornerrow),
+                    key_place(web_post_bl(), 2, cornerrow),
+                    key_place(web_post_tl(), 2, cornerrow + 1),
+                ]
+            )
+        )
+
+        # Thin triangle
+        hulls.append(
+            triangle_hulls(
+                [
+                    key_place(web_post_br(), 1, cornerrow),
+                    key_place(web_post_tl(), 2, cornerrow + 1),
+                    key_place(web_post_bl(), 2, cornerrow + 1),
+                ]
+            )
+        )
+
+        hulls.append(
+            triangle_hulls(
+                [
+                    key_place(web_post_br(), 1, cornerrow),
+                    key_place(web_post_bl(), 2, cornerrow + 1),
+                    self.top_right_place(web_post_tr()),
+                ]
+            )
+        )
+
+        hulls.append(
+            triangle_hulls(
+                [
+                    key_place(web_post_bl(), 2, cornerrow + 1),
+                    self.top_right_place(web_post_tr()),
+                    self.top_right_place(web_post_br()),
+                ]
+            )
+        )
+
+        hulls.append(
+            triangle_hulls(
+                [
+                    key_place(web_post_bl(), 2, cornerrow + 1),
+                    self.top_right_place(web_post_br()),
+                    self.bottom_right_place(web_post_tr()),
+                ]
+            )
+        )
+
+        hulls.append(
+            triangle_hulls(
+                [
+                    key_place(web_post_bl(), 2, cornerrow + 1),
+                    key_place(web_post_br(), 2, cornerrow + 1),
+                    key_place(web_post_bl(), 3, cornerrow + 1),
+                ]
+            )
+        )
+
+        hulls.append(
+            triangle_hulls(
+                [
+                    self.bottom_right_place(web_post_tr()),
+                    key_place(web_post_bl(), 2, cornerrow + 1),
+                    key_place(web_post_bl(), 3, cornerrow + 1),
+                ]
+            )
+        )
+
+        hulls.append(
+            triangle_hulls(
+                [
+                    key_place(web_post_bl(), 3, cornerrow + 1),
+                    self.bottom_right_place(web_post_br()),
+                    self.bottom_right_place(web_post_tr()),
+                ]
+            )
+        )
+
         return hulls
 
     def screw_positions(self):
