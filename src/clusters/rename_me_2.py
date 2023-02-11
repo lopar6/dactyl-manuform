@@ -51,20 +51,17 @@ class RenameMeCluster2(object):
 
         return origin
 
-
-    # Farthest inside (right side on right keyboard)
-    def far_inside_place(self, shape):
+    def bottom_right_place(self, shape):
         shape = rotate(shape, [10, -20, 20])
         shape = translate(shape, self.thumborigin())
-        shape = translate(shape, [-19, -26, -12])
+        shape = translate(shape, [-16.5, -27, -12])
         return shape
 
-    # Very middle
-    def true_middle_place(self, shape):
+    def top_right_place(self, shape):
         debugprint('ml_place()')
         shape = rotate(shape, [10, -20, 20])
         shape = translate(shape, self.thumborigin())
-        shape = translate(shape, [-26, -8, -9])
+        shape = translate(shape, [-24, -9, -9])
         return shape
 
     def bottom_left_place(self, shape):
@@ -74,8 +71,8 @@ class RenameMeCluster2(object):
         shape = translate(shape, [-37, -28, -18])
         return shape
 
-    # Below true middle
-    def below_t_middle_place(self, shape):
+    # Top left of the square section
+    def top_left_place(self, shape):
         debugprint('br_place()')
         shape = rotate(shape, [10, -10, 20])
         shape = translate(shape, self.thumborigin())
@@ -83,14 +80,13 @@ class RenameMeCluster2(object):
         return shape
 
     # Farthest left / back (on right side)
-    def far_back_place(self, shape):
+    def mid_top_place(self, shape):
         debugprint('bl_place()')
         shape = rotate(shape, [10, -10, 10])
         shape = translate(shape, self.thumborigin())
         shape = translate(shape, [-52, 9, -17])
         return shape
 
-    # TODO rename these places
     def top_place(self, shape):
         debugprint('top_place()')
         shape = rotate(shape, [10, -10, 7])
@@ -113,26 +109,26 @@ class RenameMeCluster2(object):
         if cap:
             shape_list = [
                 self.bottom_left_place(rotate(shape, [0, 0, self.thumb_plate_mr_rotation])),
-                self.true_middle_place(rotate(shape, [0, 0, self.thumb_plate_ml_rotation])),
-                self.below_t_middle_place(rotate(shape, [0, 0, self.thumb_plate_br_rotation])),
-                self.far_back_place(rotate(shape, [0, 0, self.thumb_plate_bl_rotation])),
+                self.top_right_place(rotate(shape, [0, 0, self.thumb_plate_ml_rotation])),
+                self.top_left_place(rotate(shape, [0, 0, self.thumb_plate_br_rotation])),
+                self.mid_top_place(rotate(shape, [0, 0, self.thumb_plate_bl_rotation])),
             ]
 
             if default_1U_cluster:
-                shape_list.append(self.far_inside_place(rotate(rotate(shape, (0, 0, 90)), [0, 0, self.thumb_plate_tr_rotation])))
-                shape_list.append(self.far_inside_place(rotate(rotate(shape, (0, 0, 90)), [0, 0, self.thumb_plate_tr_rotation])))
+                shape_list.append(self.bottom_right_place(rotate(rotate(shape, (0, 0, 90)), [0, 0, self.thumb_plate_tr_rotation])))
+                shape_list.append(self.bottom_right_place(rotate(rotate(shape, (0, 0, 90)), [0, 0, self.thumb_plate_tr_rotation])))
                 shape_list.append(self.top_place(rotate(shape, [0, 0, self.thumb_plate_tl_rotation])))
             shapes = add(shape_list)
 
         else:
             shape_list = [
                 self.bottom_left_place(rotate(shape, [0, 0, self.thumb_plate_mr_rotation])),
-                self.true_middle_place(rotate(shape, [0, 0, self.thumb_plate_ml_rotation])),
-                self.below_t_middle_place(rotate(shape, [0, 0, self.thumb_plate_br_rotation])),
-                self.far_back_place(rotate(shape, [0, 0, self.thumb_plate_bl_rotation])),
+                self.top_right_place(rotate(shape, [0, 0, self.thumb_plate_ml_rotation])),
+                self.top_left_place(rotate(shape, [0, 0, self.thumb_plate_br_rotation])),
+                self.mid_top_place(rotate(shape, [0, 0, self.thumb_plate_bl_rotation])),
             ]
             if default_1U_cluster:
-                shape_list.append(self.far_inside_place(rotate(rotate(shape, (0, 0, 90)), [0, 0, self.thumb_plate_tr_rotation])))
+                shape_list.append(self.bottom_right_place(rotate(rotate(shape, (0, 0, 90)), [0, 0, self.thumb_plate_tr_rotation])))
             shapes = union(shape_list)
         return shapes
 
@@ -143,7 +139,7 @@ class RenameMeCluster2(object):
             shape_list = [
                 self.top_place(shape),
             ]
-            shape_list.append(self.far_inside_place(shape))
+            shape_list.append(self.bottom_right_place(shape))
 
             return add(shape_list)
         else:
@@ -151,7 +147,7 @@ class RenameMeCluster2(object):
                 self.top_place(shape),
             ]
             if not default_1U_cluster:
-                shape_list.append(self.far_inside_place(shape))
+                shape_list.append(self.bottom_right_place(shape))
 
             return union(shape_list)
 
@@ -208,41 +204,40 @@ class RenameMeCluster2(object):
             )
         )
 
-        # hulls.append(
-        #     triangle_hulls(
-        #         [
-        #             self.true_middle_place(web_post_tr()),
-        #             self.top_place(web_post_bl()),
-        #             self.true_middle_place(web_post_br()),
-        #             # tiny triangle
-        #             self.bottom_left_place(web_post_tr()),
-
-        #             self.true_middle_place(web_post_tr()),
-        #             self.top_place(web_post_tl()),
-        #             self.top_place(web_post_bl()),
-
-        #             self.top_place(web_post_bl()),
-        #             self.bottom_left_place(web_post_tr()),
-        #             self.top_place(self.thumb_post_tr()),
-        #         ]
-        #     )
-        # )
-
         hulls.append(
             triangle_hulls(
                 [
-                    self.bottom_left_place(web_post_tl()),
-                    self.true_middle_place(web_post_bl()),
-                    self.true_middle_place(web_post_br()),
-
-                    self.true_middle_place(web_post_br()),
-                    self.bottom_left_place(web_post_tl()),
+                    self.top_right_place(web_post_tr()),
+                    self.top_place(web_post_bl()),
+                    self.top_right_place(web_post_br()),
+                    # tiny triangle
                     self.bottom_left_place(web_post_tr()),
+
+                #     self.true_middle_place(web_post_tr()),
+                #     self.top_place(web_post_tl()),
+                #     self.top_place(web_post_bl()),
+
+                #     self.top_place(web_post_bl()),
+                #     self.bottom_left_place(web_post_tr()),
+                #     self.top_place(self.thumb_post_tr()),
                 ]
             )
         )
 
-        # # Middle of 3 to farthest inside
+        # hulls.append(
+        #     triangle_hulls(
+        #         [
+        #             self.bottom_left_place(web_post_tl()),
+        #             self.true_middle_place(web_post_bl()),
+        #             self.true_middle_place(web_post_br()),
+
+        #             self.true_middle_place(web_post_br()),
+        #             self.bottom_left_place(web_post_tl()),
+        #             self.bottom_left_place(web_post_tr()),
+        #         ]
+        #     )
+        # )
+
         # hulls.append(
         #     triangle_hulls(
         #         [
@@ -257,42 +252,33 @@ class RenameMeCluster2(object):
         #     )
         # )
 
-        # # True middle of 3 to below true middle
-        # hulls.append(
-        #     triangle_hulls(
-        #         [
-        #             self.below_t_middle_place(web_post_tr()),
-        #             self.true_middle_place(web_post_bl()),
-        #             self.below_t_middle_place(web_post_br()),
+        hulls.append(
+            triangle_hulls(
+                [
+                    self.top_left_place(web_post_tr()),
+                    self.top_right_place(web_post_bl()),
+                    self.top_left_place(web_post_br()),
 
-        #             self.below_t_middle_place(web_post_tr()),
-        #             self.true_middle_place(web_post_tl()),
-        #             self.true_middle_place(web_post_bl()),
-        #         ]
-        #     )
-        # )
+                    self.top_left_place(web_post_tr()),
+                    self.top_right_place(web_post_tl()),
+                    self.top_right_place(web_post_bl()),
+                ]
+            )
+        )
 
-        # # Below true middle to farthest back
-        # hulls.append(
-        #     triangle_hulls(
-        #         [
-        #             # self.far_back_place(web_post_tl()),
-        #             # self.below_t_middle_place(web_post_bl()),
-        #             # self.below_t_middle_place(web_post_br()),
+        hulls.append(
+            triangle_hulls(
+                [
+                    self.top_left_place(web_post_tl()),
+                    self.mid_top_place(web_post_bl()),
+                    self.mid_top_place(web_post_br()),
 
-        #             # self.below_t_middle_place(web_post_br()),
-        #             # self.far_back_place(web_post_tl()),
-        #             # self.far_back_place(web_post_tr()),
-        #             self.below_t_middle_place(web_post_tl()),
-        #             self.far_back_place(web_post_bl()),
-        #             self.far_back_place(web_post_br()),
-
-        #             self.far_back_place(web_post_br()),
-        #             self.below_t_middle_place(web_post_tl()),
-        #             self.below_t_middle_place(web_post_tr()),
-        #         ]
-        #     )
-        # )
+                    self.mid_top_place(web_post_br()),
+                    self.top_left_place(web_post_tl()),
+                    self.top_left_place(web_post_tr()),
+                ]
+            )
+        )
 
         return union(hulls)
 
@@ -300,7 +286,7 @@ class RenameMeCluster2(object):
     def walls(self, side="right"):
         print('thumb_walls()')
 
-        shape = union([wall_brace(self.far_inside_place, -1, -1, web_post_br(), self.far_inside_place, -1.5, -1, web_post_bl())])
+        shape = union([wall_brace(self.bottom_right_place, -1, -1, web_post_br(), self.bottom_right_place, -1.5, -1, web_post_bl())])
         # shape = union([shape, wall_brace(self.far_inside_place, -1.5, -1, web_post_bl(), self.far_inside_place, -1.5, -1, web_post_tl())])
         # shape = union([shape, wall_brace(self.far_inside_place, -1.5, -1, web_post_tl(), self.bottom_left_place, -1.5, -1, web_post_bl())])
         # shape = union([shape, wall_brace(self.bottom_left_place, -1.5, -1, web_post_bl(), self.bottom_left_place, -1.5, -1, web_post_tl())])
@@ -326,8 +312,8 @@ class RenameMeCluster2(object):
         hulls.append(
             triangle_hulls(
                 [
-                    self.far_back_place(web_post_br()),
-                    self.far_back_place(web_post_tr()),
+                    self.mid_top_place(web_post_br()),
+                    self.mid_top_place(web_post_tr()),
                     # Corner of main board
                     key_place(web_post_bl(), 0, cornerrow),
                     key_place(web_post_tl(), 0, cornerrow),
