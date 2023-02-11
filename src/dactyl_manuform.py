@@ -15,6 +15,7 @@ from clusters.trackball_cj import TrackballCJ
 from clusters.custom_cluster import CustomCluster
 from clusters.trackball_btu import TrackballBTU
 from clusters.rename_me import RenameMeCluster
+from clusters.rename_me_2 import RenameMeCluster2
 
 
 def deg2rad(degrees: float) -> float:
@@ -1670,7 +1671,7 @@ def make_dactyl():
             translate(screw_insert_thumb(bottom_radius, top_radius, height, side), (0, 0, offset)),  # thumb cluster
         ]
         # front left
-        if thumb_style == RenameMeCluster.name():
+        if thumb_style == RenameMeCluster.name() or thumb_style == RenameMeCluster2.name():
             shape.append(translate(screw_insert(0, lastrow - 2, bottom_radius, top_radius, height, side=side),
                       (0, left_wall_lower_y_offset, offset)))
         else:
@@ -2017,6 +2018,8 @@ def make_dactyl():
             clust = CustomCluster(all_merged)
         elif style == RenameMeCluster.name():
             clust = RenameMeCluster(all_merged)
+        elif style == RenameMeCluster2.name():
+            clust = RenameMeCluster2(all_merged)
         else:
             clust = DefaultCluster(all_merged)
 
