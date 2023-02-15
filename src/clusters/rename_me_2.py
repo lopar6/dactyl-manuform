@@ -52,21 +52,21 @@ class RenameMeCluster2(object):
         return origin
 
     def bottom_right_place(self, shape):
-        shape = rotate(shape, [10, -20, 20])
+        shape = rotate(shape, [10, -40, 20])
         shape = translate(shape, self.thumborigin())
         shape = translate(shape, [-16.5, -27, -12])
         return shape
 
     def top_right_place(self, shape):
         debugprint('ml_place()')
-        shape = rotate(shape, [10, -20, 20])
+        shape = rotate(shape, [10, -40, 20])
         shape = translate(shape, self.thumborigin())
         shape = translate(shape, [-24, -9, -9])
         return shape
 
     def bottom_left_place(self, shape):
         debugprint('mr_place()')
-        shape = rotate(shape, [10, -10, 20])
+        shape = rotate(shape, [10, -40, 20])
         shape = translate(shape, self.thumborigin())
         shape = translate(shape, [-37, -28, -18])
         return shape
@@ -74,7 +74,7 @@ class RenameMeCluster2(object):
     # Top left of the square section
     def top_left_place(self, shape):
         debugprint('br_place()')
-        shape = rotate(shape, [10, -10, 20])
+        shape = rotate(shape, [10, -40, 20])
         shape = translate(shape, self.thumborigin())
         shape = translate(shape, [-45, -10, -17])
         return shape
@@ -82,16 +82,16 @@ class RenameMeCluster2(object):
     # Farthest left / back (on right side)
     def mid_top_place(self, shape):
         debugprint('bl_place()')
-        shape = rotate(shape, [10, -10, 10])
+        shape = rotate(shape, [10, -40, 10])
         shape = translate(shape, self.thumborigin())
-        shape = translate(shape, [-52, 9, -17])
+        shape = translate(shape, [-45, 9, -17])
         return shape
 
     def top_place(self, shape):
         debugprint('top_place()')
-        shape = rotate(shape, [10, -10, 7])
+        shape = rotate(shape, [10, -40, 7])
         shape = translate(shape, self.thumborigin())
-        shape = translate(shape, [-54.5, 30, -17])
+        shape = translate(shape, [-45, 30, -17])
         return shape
 
     def bottom_structural_node_place(self, shape):
