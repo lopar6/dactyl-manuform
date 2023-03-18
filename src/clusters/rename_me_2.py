@@ -54,14 +54,14 @@ class RenameMeCluster2(object):
     def bottom_right_place(self, shape):
         shape = rotate(shape, [10, -40, 20])
         shape = translate(shape, self.thumborigin())
-        shape = translate(shape, [-16.5, -27, -12])
+        shape = translate(shape, [-16.5, -27, -6])
         return shape
 
     def top_right_place(self, shape):
         debugprint('ml_place()')
         shape = rotate(shape, [10, -40, 20])
         shape = translate(shape, self.thumborigin())
-        shape = translate(shape, [-24, -9, -9])
+        shape = translate(shape, [-26, -9, -6])
         return shape
 
     def bottom_left_place(self, shape):
