@@ -56,7 +56,7 @@ def make_dactyl():
 
     symmetry = None
     column_style = None
-    save_path = path.join(r"..", "things")
+    save_path = path.join(r"./", "things")
 
     def cluster(side="right"):
         return right_cluster if side == "right" else left_cluster
@@ -79,7 +79,7 @@ def make_dactyl():
 
     if data is None:
         print("NO CONFIGURATION SPECIFIED, USING run_config.json")
-        with open(os.path.join(r".", 'run_config.json'), mode='r') as fid:
+        with open(os.path.join(r"src", 'run_config.json'), mode='r') as fid:
             data = json.load(fid)
 
     if data["overrides"] not in [None, ""]:

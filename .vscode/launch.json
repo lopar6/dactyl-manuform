@@ -8,7 +8,8 @@
       "name": "Python dactyl",
       "type": "python",
       "request": "launch",
-      "program": "./dactyl_manuform.py",
+      "cwd": "${workspaceFolder}",
+      "program": "./src/dactyl_manuform.py",
       "console": "integratedTerminal",
     }
   ]
