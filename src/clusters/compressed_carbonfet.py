@@ -4,6 +4,12 @@ import os
 
 class CarbonpressedCluster(DefaultCluster):
 
+    thumb_offsets = [
+        6,
+        -3,
+        7
+    ]
+
     @staticmethod
     def name():
         return "CARBONPRESSED"

@@ -19,7 +19,7 @@
   "column_style_gt5": "orthographic",
   "column_style": "standard",
   "full_last_rows": false,
-  "keyboard_z_offset": 28.5,
+  "keyboard_z_offset": 26,
   "skip_last_rows_wall": true,
   "skip_2nd_to_last_rows_wall": false,
   "thumb_style": "CARBONPRESSED",
