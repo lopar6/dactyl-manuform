@@ -10,7 +10,7 @@ class CarbonpressedCluster(DefaultCluster):
 
 
     def get_config(self):
-        with open(os.path.join(".", "clusters", "json", "CARBONFET.json"), mode='r') as fid:
+        with open(os.path.join("src", "clusters", "json", "CARBONFET.json"), mode='r') as fid:
             data = json.load(fid)
 
         superdata = super().get_config()
@@ -33,76 +33,58 @@ class CarbonpressedCluster(DefaultCluster):
             globals()[item] = parent_locals[item]
 
     def tl_place(self, shape):
-        shape = rotate(shape, [10, -24, 10])
+        shape = rotate(shape, [8, -31, 14])
         shape = translate(shape, self.thumborigin())
-        shape = translate(shape, [-13, -9.8, 4])
+        shape = translate(shape, [-13, -4, 4])
         return shape
 
     def tr_place(self, shape):
-        shape = rotate(shape, [6, -25, 10])
+        shape = rotate(shape, [20, -31, 14])
         shape = translate(shape, self.thumborigin())
-        shape = translate(shape, [-7.5, -29.5, 0])
+        shape = translate(shape, [-5, -19, -1])
         return shape
 
     def ml_place(self, shape):
         shape = rotate(shape, [8, -31, 14])
         shape = translate(shape, self.thumborigin())
-        shape = translate(shape, [-30.5, -17, -6])
+        shape = translate(shape, [-29, -9, -6])
         return shape
 
     def mr_place(self, shape):
-        shape = rotate(shape, [4, -31, 14])
+        shape = rotate(shape, [20, -31, 14])
         shape = translate(shape, self.thumborigin())
-        shape = translate(shape, [-22.2, -41, -10.3])
+        shape = translate(shape, [-20, -23, -12])
         return shape
 
     def br_place(self, shape):
-        shape = rotate(shape, [2, -37, 18])
+        shape = rotate(shape, [20, -31, 14])
         shape = translate(shape, self.thumborigin())
-        shape = translate(shape, [-37, -46.4, -22])
+        shape = translate(shape, [-36, -28.5, -22])
         return shape
 
     def bl_place(self, shape):
-        shape = rotate(shape, [6, -37, 18])
+        shape = rotate(shape, [4, -31, 14])
         shape = translate(shape, self.thumborigin())
-        shape = translate(shape, [-47, -23, -19])
+        shape = translate(shape, [-43, -14, -18])
         return shape
 
     def thumb_1x_layout(self, shape, cap=False):
         debugprint('thumb_1x_layout()')
         return union([
+            self.bl_place(rotate(shape, [0, 0, thumb_plate_bl_rotation])),
+            self.ml_place(rotate(shape, [0, 0, thumb_plate_ml_rotation])),
             self.tr_place(rotate(shape, [0, 0, thumb_plate_tr_rotation])),
             self.mr_place(rotate(shape, [0, 0, thumb_plate_mr_rotation])),
             self.br_place(rotate(shape, [0, 0, thumb_plate_br_rotation])),
             self.tl_place(rotate(shape, [0, 0, thumb_plate_tl_rotation])),
         ])
 
-    def thumb_15x_layout(self, shape, cap=False, plate=True):
-        debugprint('thumb_15x_layout()')
-        if plate:
-            return union([
-                self.bl_place(rotate(shape, [0, 0, thumb_plate_bl_rotation])),
-                self.ml_place(rotate(shape, [0, 0, thumb_plate_ml_rotation]))
-            ])
-        else:
-            return union([
-                self.bl_place(shape),
-                self.ml_place(shape)
-            ])
-
     def thumbcaps(self, side='right'):
-        t1 = self.thumb_1x_layout(sa_cap(1))
-        t15 = self.thumb_1x_layout(sa_cap(1))
-        # t15 = self.thumb_15x_layout(rotate(sa_cap(1.5), [0, 0, rad2deg(pi / 2)]))
-        return t1.add(t15)
+        return self.thumb_1x_layout(sa_cap(1))
 
     def thumb(self, side="right"):
         print('thumb()')
-        shape = self.thumb_1x_layout(single_plate(side=side))
-        shape = union([shape, self.thumb_15x_layout(double_plate_half(), plate=False)])
-        shape = union([shape, self.thumb_15x_layout(single_plate(side=side))])
-
-        return shape
+        return self.thumb_1x_layout(single_plate(side=side))
 
     def thumb_connectors(self, side="right"):
         print('thumb_connectors()')

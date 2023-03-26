@@ -16,6 +16,7 @@ from clusters.custom_cluster import CustomCluster
 from clusters.trackball_btu import TrackballBTU
 from clusters.rename_me import RenameMeCluster
 from clusters.rename_me_2 import RenameMeCluster2
+from clusters.compressed_carbonfet import CarbonpressedCluster
 
 
 def deg2rad(degrees: float) -> float:
@@ -1695,7 +1696,7 @@ def make_dactyl():
             translate(screw_insert_thumb(bottom_radius, top_radius, height, side), (0, 0, offset)),  # thumb cluster
         ]
         # front left
-        if thumb_style == RenameMeCluster.name() or thumb_style == RenameMeCluster2.name():
+        if thumb_style == RenameMeCluster.name() or thumb_style == RenameMeCluster2.name() or thumb_style == CarbonpressedCluster.name():
             shape.append(translate(screw_insert(0, lastrow - 2, bottom_radius, top_radius, height, side=side),
                       (0, left_wall_lower_y_offset, offset)))
         else:
@@ -2026,6 +2027,8 @@ def make_dactyl():
     def get_cluster(style):
         if style == CarbonfetCluster.name():
             clust = CarbonfetCluster(all_merged)
+        elif style == CarbonpressedCluster.name():
+            clust = CarbonpressedCluster(all_merged)
         elif style == MiniCluster.name():
             clust = MiniCluster(all_merged)
         elif style == MinidoxCluster.name():
