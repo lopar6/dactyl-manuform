@@ -2,6 +2,7 @@ from clusters.default_cluster import DefaultCluster
 import json
 import os
 
+# Altered carbonfet
 class CarbonfetCluster(DefaultCluster):
 
     @staticmethod
@@ -10,7 +11,7 @@ class CarbonfetCluster(DefaultCluster):
 
 
     def get_config(self):
-        with open(os.path.join(".", "clusters", "json", "CARBONFET.json"), mode='r') as fid:
+        with open(os.path.join("src", "clusters", "json", "CARBONFET.json"), mode='r') as fid:
             data = json.load(fid)
 
         superdata = super().get_config()
@@ -33,7 +34,7 @@ class CarbonfetCluster(DefaultCluster):
             globals()[item] = parent_locals[item]
 
     def tl_place(self, shape):
-        shape = rotate(shape, [10, -24, 10])
+        shape = rotate(shape, [8, -31, 14])
         shape = translate(shape, self.thumborigin())
         shape = translate(shape, [-13, -9.8, 4])
         return shape
@@ -41,7 +42,7 @@ class CarbonfetCluster(DefaultCluster):
     def tr_place(self, shape):
         shape = rotate(shape, [6, -25, 10])
         shape = translate(shape, self.thumborigin())
-        shape = translate(shape, [-7.5, -29.5, 0])
+        shape = translate(shape, [-7.5, -33.5, 0])
         return shape
 
     def ml_place(self, shape):
@@ -93,7 +94,7 @@ class CarbonfetCluster(DefaultCluster):
     def thumbcaps(self, side='right'):
         t1 = self.thumb_1x_layout(sa_cap(1))
         t15 = self.thumb_1x_layout(sa_cap(1))
-        # t15 = self.thumb_15x_layout(rotate(sa_cap(1.5), [0, 0, rad2deg(pi / 2)]))
+        t15 = self.thumb_15x_layout(rotate(sa_cap(1.5), [0, 0, rad2deg(pi / 2)]))
         return t1.add(t15)
 
     def thumb(self, side="right"):

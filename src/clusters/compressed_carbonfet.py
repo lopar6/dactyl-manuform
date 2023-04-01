@@ -3,13 +3,6 @@ import json
 import os
 
 class CarbonpressedCluster(DefaultCluster):
-
-    thumb_offsets = [
-        6,
-        -3,
-        7
-    ]
-
     @staticmethod
     def name():
         return "CARBONPRESSED"
@@ -47,50 +40,73 @@ class CarbonpressedCluster(DefaultCluster):
     def tr_place(self, shape):
         shape = rotate(shape, [20, -31, 14])
         shape = translate(shape, self.thumborigin())
-        shape = translate(shape, [-5, -19, -1])
+        shape = translate(shape, [-3, -26, -3])
         return shape
 
     def ml_place(self, shape):
         shape = rotate(shape, [8, -31, 14])
         shape = translate(shape, self.thumborigin())
-        shape = translate(shape, [-29, -9, -6])
+        shape = translate(shape, [-29, -8, -6])
         return shape
 
     def mr_place(self, shape):
         shape = rotate(shape, [20, -31, 14])
         shape = translate(shape, self.thumborigin())
-        shape = translate(shape, [-20, -23, -12])
-        return shape
-
-    def br_place(self, shape):
-        shape = rotate(shape, [20, -31, 14])
-        shape = translate(shape, self.thumborigin())
-        shape = translate(shape, [-36, -28.5, -22])
+        shape = translate(shape, [-20, -30, -12])
         return shape
 
     def bl_place(self, shape):
-        shape = rotate(shape, [4, -31, 14])
+        shape = rotate(shape, [8, -31, 14])
         shape = translate(shape, self.thumborigin())
-        shape = translate(shape, [-43, -14, -18])
+        shape = translate(shape, [-43, -12, -18])
         return shape
+
+    # TODO fix height
+    def br_place(self, shape):
+        shape = rotate(shape, [20, -31, 14])
+        shape = translate(shape, self.thumborigin())
+        shape = translate(shape, [-36, -34.5, -22])
+        return shape
+
 
     def thumb_1x_layout(self, shape, cap=False):
         debugprint('thumb_1x_layout()')
         return union([
             self.bl_place(rotate(shape, [0, 0, thumb_plate_bl_rotation])),
             self.ml_place(rotate(shape, [0, 0, thumb_plate_ml_rotation])),
-            self.tr_place(rotate(shape, [0, 0, thumb_plate_tr_rotation])),
-            self.mr_place(rotate(shape, [0, 0, thumb_plate_mr_rotation])),
-            self.br_place(rotate(shape, [0, 0, thumb_plate_br_rotation])),
             self.tl_place(rotate(shape, [0, 0, thumb_plate_tl_rotation])),
         ])
 
+    def thumb_15x_layout(self, shape, cap=False, plate=True):
+        debugprint('thumb_15x_layout()')
+        if plate:
+            return union([
+                self.tr_place(rotate(shape, [0, 0, thumb_plate_tr_rotation])),
+                self.mr_place(rotate(shape, [0, 0, thumb_plate_mr_rotation])),
+                self.br_place(rotate(shape, [0, 0, thumb_plate_br_rotation])),
+            ])
+        else:
+            return union([
+                self.tr_place(shape),
+                self.mr_place(shape),
+                self.br_place(shape),
+            ])
+
+
     def thumbcaps(self, side='right'):
-        return self.thumb_1x_layout(sa_cap(1))
+        t1 = self.thumb_1x_layout(sa_cap(1))
+        t15 = self.thumb_1x_layout(sa_cap(1))
+        t15 = self.thumb_15x_layout(rotate(sa_cap(1.5), [0, 0, rad2deg(pi / 2)]))
+        return t1.add(t15)
+
 
     def thumb(self, side="right"):
         print('thumb()')
-        return self.thumb_1x_layout(single_plate(side=side))
+        # TODO fix plates missing
+        shape = self.thumb_1x_layout(single_plate(side=side))
+        shape = union([shape, self.thumb_15x_layout(double_plate_half(), plate=False)])
+        shape = union([shape, self.thumb_15x_layout(single_plate(side=side))])
+        return shape
 
     def thumb_connectors(self, side="right"):
         print('thumb_connectors()')
@@ -102,7 +118,7 @@ class CarbonpressedCluster(DefaultCluster):
                 [
                     self.tl_place(web_post_tl()),
                     self.tl_place(web_post_bl()),
-                    self.ml_place(self.thumb_post_tr()),
+                    self.ml_place(web_post_tr()),
                     self.ml_place(web_post_br()),
                 ]
             )
@@ -111,9 +127,9 @@ class CarbonpressedCluster(DefaultCluster):
         hulls.append(
             triangle_hulls(
                 [
-                    self.ml_place(self.thumb_post_tl()),
+                    self.ml_place(web_post_tl()),
                     self.ml_place(web_post_bl()),
-                    self.bl_place(self.thumb_post_tr()),
+                    self.bl_place(web_post_tr()),
                     self.bl_place(web_post_br()),
                 ]
             )
@@ -123,10 +139,10 @@ class CarbonpressedCluster(DefaultCluster):
         hulls.append(
             triangle_hulls(
                 [
-                    self.br_place(web_post_tr()),
-                    self.br_place(web_post_br()),
-                    self.mr_place(web_post_tl()),
-                    self.mr_place(web_post_bl()),
+                    self.br_place(self.thumb_post_tr()),
+                    self.br_place(self.thumb_post_br()),
+                    self.mr_place(self.thumb_post_tl()),
+                    self.mr_place(self.thumb_post_bl()),
                 ]
             )
         )
@@ -135,19 +151,19 @@ class CarbonpressedCluster(DefaultCluster):
         hulls.append(
             triangle_hulls(
                 [
-                    self.mr_place(web_post_tr()),
-                    self.mr_place(web_post_br()),
-                    self.tr_place(web_post_tl()),
-                    self.tr_place(web_post_bl()),
+                    self.mr_place(self.thumb_post_tr()),
+                    self.mr_place(self.thumb_post_br()),
+                    self.tr_place(self.thumb_post_tl()),
+                    self.tr_place(self.thumb_post_bl()),
                 ]
             )
         )
         hulls.append(
             triangle_hulls(
                 [
-                    self.tr_place(web_post_br()),
-                    self.tr_place(web_post_bl()),
-                    self.mr_place(web_post_br()),
+                    self.tr_place(self.thumb_post_br()),
+                    self.tr_place(self.thumb_post_bl()),
+                    self.mr_place(self.thumb_post_br()),
                 ]
             )
         )
@@ -156,17 +172,17 @@ class CarbonpressedCluster(DefaultCluster):
         hulls.append(
             triangle_hulls(
                 [
-                    self.br_place(web_post_tl()),
+                    self.br_place(self.thumb_post_tl()),
                     self.bl_place(web_post_bl()),
-                    self.br_place(web_post_tr()),
+                    self.br_place(self.thumb_post_tr()),
                     self.bl_place(web_post_br()),
-                    self.mr_place(web_post_tl()),
+                    self.mr_place(self.thumb_post_tl()),
                     self.ml_place(web_post_bl()),
-                    self.mr_place(web_post_tr()),
+                    self.mr_place(self.thumb_post_tr()),
                     self.ml_place(web_post_br()),
-                    self.tr_place(web_post_tl()),
+                    self.tr_place(self.thumb_post_tl()),
                     self.tl_place(web_post_bl()),
-                    self.tr_place(web_post_tr()),
+                    self.tr_place(self.thumb_post_tr()),
                     self.tl_place(web_post_br()),
                 ]
             )
@@ -264,21 +280,22 @@ class CarbonpressedCluster(DefaultCluster):
 
         return union(hulls)
 
+    # TODO fix walls
     def walls(self, side="right"):
         print('thumb_walls()')
         # thumb, walls
-        shape = union([wall_brace(self.mr_place, 0, -1, web_post_br(), self.tr_place, 0, -1, web_post_br())])
-        shape = union([shape, wall_brace(self.mr_place, 0, -1, web_post_br(), self.mr_place, 0, -1.15, web_post_bl())])
-        shape = union([shape, wall_brace(self.br_place, 0, -1, web_post_br(), self.br_place, 0, -1, web_post_bl())])
+        shape = union([wall_brace(self.mr_place, 0, -1, self.thumb_post_br(), self.tr_place, 0, -1, web_post_br())])
+        shape = union([shape, wall_brace(self.mr_place, 0, -1, self.thumb_post_br(), self.mr_place, 0, -1.15, self.thumb_post_bl())])
+        shape = union([shape, wall_brace(self.br_place, 0, -1, self.thumb_post_br(), self.br_place, 0, -1, self.thumb_post_bl())])
         shape = union(
-            [shape, wall_brace(self.bl_place, -.3, 1, self.thumb_post_tr(), self.bl_place, 0, 1, self.thumb_post_tl())])
+            [shape, wall_brace(self.bl_place, -.3, 1, web_post_tr(), self.bl_place, 0, 1, web_post_tl())])
         shape = union([shape, wall_brace(self.br_place, -1, 0, web_post_tl(), self.br_place, -1, 0, web_post_bl())])
         shape = union(
-            [shape, wall_brace(self.bl_place, -1, 0, self.thumb_post_tl(), self.bl_place, -1, 0, web_post_bl())])
+            [shape, wall_brace(self.bl_place, -1, 0, web_post_tl(), self.bl_place, -1, 0, web_post_bl())])
         # thumb, corners
         shape = union([shape, wall_brace(self.br_place, -1, 0, web_post_bl(), self.br_place, 0, -1, web_post_bl())])
         shape = union(
-            [shape, wall_brace(self.bl_place, -1, 0, self.thumb_post_tl(), self.bl_place, 0, 1, self.thumb_post_tl())])
+            [shape, wall_brace(self.bl_place, -1, 0, web_post_tl(), self.bl_place, 0, 1, web_post_tl())])
         # thumb, tweeners
         shape = union([shape, wall_brace(self.mr_place, 0, -1.15, web_post_bl(), self.br_place, 0, -1, web_post_br())])
         shape = union([shape, wall_brace(self.bl_place, -1, 0, web_post_bl(), self.br_place, -1, 0, web_post_tl())])
