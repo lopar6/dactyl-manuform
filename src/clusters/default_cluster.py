@@ -83,7 +83,7 @@ class DefaultCluster(object):
         debugprint('br_place()')
         shape = rotate(shape, [-16, -33, 54])
         shape = translate(shape, self.thumborigin())
-        shape = translate(shape, [-37.8, -55.3, -25.3])
+        shape = translate(shape, [-35, -55.3, -25.3])
         return shape
 
     def bl_place(self, shape):
