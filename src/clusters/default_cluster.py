@@ -62,7 +62,7 @@ class DefaultCluster(object):
         debugprint('tr_place()')
         shape = rotate(shape, [10, -15, 10])
         shape = translate(shape, self.thumborigin())
-        shape = translate(shape, [-12, -16, 3])
+        shape = translate(shape, [-14.5, -16, 3])
         return shape
 
     def mr_place(self, shape):
@@ -74,9 +74,9 @@ class DefaultCluster(object):
 
     def ml_place(self, shape):
         debugprint('ml_place()')
-        shape = rotate(shape, [6, -34, 40])
+        shape = rotate(shape, [7.5, -24, 10])
         shape = translate(shape, self.thumborigin())
-        shape = translate(shape, [-51, -25, -12])
+        shape = translate(shape, [-48, -25, -12])
         return shape
 
     def br_place(self, shape):
