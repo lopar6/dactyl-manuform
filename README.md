@@ -3,9 +3,13 @@ So, THIS is a fork of a fork of a fork of a... You get the idea.
 
 This is a fork of [Wylderbuilds fork](https://github.com/bullwinkle3000/dactyl-keyboard) of [joshreve's brilliant adaptation](https://github.com/joshreve/dactyl-keyboard)  of the original Clojure-based dactyl manuform generator redone in Python 3. Without both of their work this process would have been much more difficult.
 
-## This is my hacky version of a specifically taylored custom dactyl
-The primary purpose for this repo is to have a place to experament with a wrapping thumb cluster.
-I would like to eventually get this repo to a state where it can be used more widely with the thumb cluter being more modular.
+## This is my hacky version of a specifically tailored custom dactyl
+The primary purpose for this repo is to have a place to experiment with a wrapping thumb cluster.
+I would like to eventually get this repo to a state where it can be used more widely with the thumb cluster being more modular.
+
+## running Cadqury
+If you run into a problem importing Cadquery:
+https://github.com/CadQuery/cadquery/issues/1046
 
 # From here down contains the contents of the readme written by Wylderbuild.
 
